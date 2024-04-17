@@ -87,3 +87,100 @@ data_lines = [
     'Maintenance College - Speech Language Hearing 120 - Burdick 300 - McAlister Hall 150 - Wingo 100 - New Business Building 150 - Oak Tree Apt 160',
     'Oak Tree Apt - Maintenance College 160 - Brewer-Hegema 40'
 ]
+
+# Extracting data from provided lines
+counter = 0
+for lines in data_lines:
+  pos = lines.index(' - ')
+  buildings = lines[:pos]
+  nodes = lines[pos + 3:]
+  nodes = nodes.replace('\n', '')
+
+  list1 = nodes.split(" - ")
+
+  a.append(buildings)  # list of building names
+  new[buildings] = []
+
+  for var in list1:
+    value = [int(m) for m in var.split() if m.isdigit()]
+    value = value[0]
+    var = ''.join((x for x in var if not x.isdigit()))
+    var = var.rstrip()
+    DataBinding = DataExtraction(var, value)
+    v.append(DataBinding)
+
+  new[a[counter]] = v
+  v = []
+  counter += 1
+
+print()
+print("------------------------------OUTPUT--------------------------------")
+print()
+"""
+Beginning of Bellman-Ford:
+
+"""
+
+#listing out all the edges from the graph
+edges = []
+for each in new:
+  ls = new[each]
+  for x in ls:
+    edge = [each, x.Name, x.Distance]
+    edges.append(edge)
+
+
+def shortPath():
+  for i in new:
+    dist[i] = float("inf")
+    prev[i] = 'NIL'
+
+  dist['Computer Science'] = 0
+
+  vertices = len(dist)
+  for x in range(vertices - 1):
+    for edge in edges:
+      update(edge)
+
+
+def update(edge):
+  u = edge[0]
+  v = edge[1]
+  weight = edge[2]
+
+  if dist[v] > dist[u] + weight:
+    dist[v] = dist[u] + weight
+    prev[v] = u
+
+
+#call the Bellman-Ford shortest path function
+shortPath()
+"""
+Initializing the spanning tree to hold the shortest path to each node in a list.
+"""
+for each in prev:
+  sTree[each] = []
+
+#populating the spanning tree
+for each in prev:
+  l = prev[each]
+
+  while l != 'NIL':
+    p = prev[l]
+    sTree[each].insert(0, l)
+    l = p
+
+#printing the spanning tree
+#print(sTree)
+print("\t BELLMAN-FORD algorithm \n")
+for i in sTree:
+  if i == 'Computer Science':
+    continue
+  print("Computer Science to ", i)
+  print("The Distance is ", dist[i])
+  for j in sTree[i]:
+    print("\n")
+    print(j, end='')
+    print('->', end='')
+
+  print(i)
