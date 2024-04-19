@@ -184,3 +184,76 @@ for i in sTree:
     print('->', end='')
 
   print(i)
+
+#Dijkstra
+
+hashmap = {}
+j = 0
+for i in new:
+  hashmap[i] = j
+  j += 1
+distance = []
+prev = []
+hashmap1 = hashmap.copy()
+hashmap2 = hashmap.copy()
+
+#global distance
+
+
+def dijkstra(Graph, distances, src):
+  priorityQueue = PriorityQueue()
+  for i in Graph:
+    distances.append(float('inf'))
+    prev.append('')
+  distances[hashmap[src]] = 0
+  for i in hashmap:
+    obj1 = object1(i, distances[hashmap[i]])
+    priorityQueue.insert(None, obj1)
+  while not priorityQueue.isEmpty():
+    u = priorityQueue.delete()
+    for i in Graph[u.index]:
+      if distances[hashmap[i.Name]] > distances[hashmap[u.index]] + i.Distance:
+        distances[hashmap[i.Name]] = distances[hashmap[u.index]] + i.Distance
+        prev[hashmap[i.Name]] = u.index
+        obj1 = object1(i.Name, distances[hashmap[i.Name]])
+        priorityQueue.insert(i.Name, obj1)
+  print("------------------------------OUTPUT--------------------------------")
+
+  j = 0
+  for i in hashmap:
+    hashmap[i] = distances[j]
+    j += 1
+
+
+dijkstra(new, distance, 'Computer Science')
+emptyh = []
+counter = 0
+for i in hashmap1:
+  counter = 0
+  while id != 'Computer Science':
+    if counter == 0:
+      if i == 'Computer Science':
+        break
+      id = prev[hashmap1[i]]
+      counter = 1
+    else:
+      id = prev[hashmap1[id]]
+    emptyh.append(id)
+  id = '-1'
+  emptyh = emptyh[::-1]
+  #emptyh.append(i)
+  hashmap2[i] = emptyh
+  emptyh = []
+
+print()
+
+print("\n DIJKSTRA Algorithm \n")
+for i in hashmap2:
+  if i == 'Computer Science':
+    continue
+  print("Computer Science to ", i)
+  print("The Distance is ", hashmap[i])
+  for j in hashmap2[i]:
+    print(j, end='')
+    print('->', end='')
+  print(i)
